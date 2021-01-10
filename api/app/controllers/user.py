@@ -1,5 +1,4 @@
 import jsonpickle
-from flask import json
 from flask.globals import request
 from app import app, db
 from app.models.users import User
@@ -34,7 +33,7 @@ def find_user_by_id(user_id):
             user.name = new_name
         if request.json['phone']:
             new_phone = request.json['phone']
-            user.name = new_phone
+            user.phone = new_phone
         db.session.add(user)
         db.session.commit()
         frozen_user = jsonpickle.encode(user)

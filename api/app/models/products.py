@@ -1,3 +1,4 @@
+from flask import json
 from app import db
 
 
@@ -13,4 +14,6 @@ class Product(db.Model):
         self.value = value
 
     def __repr__(self):
-        return "<Product %r>" % self.name
+        product = json.dumps(
+            {"id": self.id, "name": self.name, "value": self.value})
+        return product
