@@ -8,3 +8,5 @@ SQLALCHEMY_DATABASE_URI = "postgresql://{username}:{password}@localhost:{port}/a
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 BCRYPT_LOG_ROUNDS = 10
+
+JWT_SECRET_KEY = '22723bbd4217a0abf6d3e68073c7603d'

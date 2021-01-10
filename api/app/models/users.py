@@ -15,7 +15,7 @@ class User(db.Model):
         self.name = name
         self.phone = phone
         self.user_name = user_name
-        pw_hash = bcrypt.generate_password_hash(password)
+        pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
         self.password = pw_hash
 
     def __repr__(self):

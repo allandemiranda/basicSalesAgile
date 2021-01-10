@@ -3,9 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager, Server
 from flask_migrate import Migrate, MigrateCommand
 from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
 app.config.from_object('config')
+
+jwt = JWTManager(app)
 
 bcrypt = Bcrypt(app)
 
@@ -18,4 +21,4 @@ manager.add_command("runserver", Server())
 
 from app.models import products, sales, users
 
-from app.controllers import default, user
+from app.controllers import default, auth, user, product
