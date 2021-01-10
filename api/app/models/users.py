@@ -1,4 +1,5 @@
-from app import db
+from flask import json
+from app import db, bcrypt
 
 
 class User(db.Model):
@@ -14,7 +15,10 @@ class User(db.Model):
         self.name = name
         self.phone = phone
         self.user_name = user_name
-        self.password = password
+        pw_hash = bcrypt.generate_password_hash(password)
+        self.password = pw_hash
 
     def __repr__(self):
-        return "<User %r>" % self.user_name
+        user = json.dumps({"id": self.id, "name": self.name, "phone": self.phone,
+                           "user_name": self.user_name})
+        return user
