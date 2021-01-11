@@ -1,9 +1,11 @@
 from flask import jsonify, request, json
 from app import app, db
-from app.models.users import User
+from app.models.userSchema import User
+from flask_jwt_extended import jwt_required
 
 
 @app.route("/api/user/", methods=['POST'])
+@jwt_required
 def create_user():
     name = request.json['name']
     phone = request.json['phone']
@@ -16,6 +18,7 @@ def create_user():
 
 
 @app.route("/api/user/<int:user_id>", methods=['GET', 'PUT'])
+@jwt_required
 def find_user_by_id(user_id):
     user = User.query.filter_by(id=user_id).first()
     if request.method == 'GET':
@@ -36,6 +39,7 @@ def find_user_by_id(user_id):
 
 
 @app.route("/api/user/<login>", methods=['GET'])
+@jwt_required
 def find_user_by_login(login):
     user = User.query.filter_by(user_name=login).first()
     if user:
@@ -45,6 +49,7 @@ def find_user_by_login(login):
 
 
 @app.route("/api/users/", methods=['GET'])
+@jwt_required
 def show_all_users():
     users = User.query.order_by(User.id).all()
     if len(users) > 0:

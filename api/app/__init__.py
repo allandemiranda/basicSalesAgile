@@ -19,6 +19,6 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 manager.add_command("runserver", Server())
 
-from app.models import products, sales, users
+from app.models import productShema, saleSchema, userSchema
 
-from app.controllers import default, auth, user, product
+from app.controllers import default, auth, user, product, sale
