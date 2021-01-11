@@ -1,3 +1,4 @@
+FLASK_RUN_CERT = "adhoc"
 DEBUG = True
 
 pg_user = "allanmiranda"
