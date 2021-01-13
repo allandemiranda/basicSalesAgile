@@ -10,7 +10,8 @@ def create_sale():
     product_id = request.json['product_id']
     quantity = request.json['quantity']
     total = request.json['total']
-    user_id = get_jwt_identity()
+    # user_id = get_jwt_identity()
+    user_id = request.json['user_id']
     sale = Sale(product_id, quantity, total, user_id)
     db.session.add(sale)
     db.session.commit()
