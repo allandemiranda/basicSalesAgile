@@ -18,7 +18,7 @@ def create_sale():
 
 
 @app.route("/api/product/<int:sale_id>", methods=['GET', 'PUT'])
-@jwt_required
+###@jwt_required
 def find_sale_by_id(sale_id):
     sale = Sale.query.filter_by(id=sale_id).first()
     if request.method == 'GET':
@@ -42,7 +42,7 @@ def find_sale_by_id(sale_id):
 
 
 @app.route("/api/sales/", methods=['GET'])
-@jwt_required
+###@jwt_required
 def show_all_sales():
     sales = Sale.query.order_by(Sale.id).all()
     if len(sales) > 0:

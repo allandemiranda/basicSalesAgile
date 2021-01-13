@@ -1,7 +1,9 @@
 from flask import jsonify, request, json
 from app import app, db
 from app.models.userSchema import User
+from app.models.saleSchema import Sale
 from flask_jwt_extended import jwt_required
+from sqlalchemy.sql import func
 
 
 @app.route("/api/user/", methods=['POST'])
@@ -12,13 +14,17 @@ def create_user():
     user_name = request.json['user_name']
     password = request.json['password']
     user = User(name, phone, user_name, password)
-    db.session.add(user)
-    db.session.commit()
+    try:
+        db.session.add(user)
+        db.session.commit()
+    except Exception as inst:
+        print(inst.args)
+        return jsonify({"error": "Cannot process the request because it is malformed or incorrect"}), 400
     return str(user), 200
 
 
 @app.route("/api/user/<int:user_id>", methods=['GET', 'PUT'])
-@jwt_required
+# @jwt_required
 def find_user_by_id(user_id):
     user = User.query.filter_by(id=user_id).first()
     if request.method == 'GET':
@@ -39,7 +45,7 @@ def find_user_by_id(user_id):
 
 
 @app.route("/api/user/<login>", methods=['GET'])
-@jwt_required
+# @jwt_required
 def find_user_by_login(login):
     user = User.query.filter_by(user_name=login).first()
     if user:
@@ -48,11 +54,44 @@ def find_user_by_login(login):
         return jsonify({"error": "There is no user with this User_Name"}), 404
 
 
-@app.route("/api/users/", methods=['GET'])
-@jwt_required
+@app.route("/api/topUsers/", methods=['GET'])
+# @jwt_required
 def show_all_users():
-    users = User.query.order_by(User.id).all()
-    if len(users) > 0:
-        return str(users), 200
+    join = db.session.query(User, func.sum(Sale.total)).outerjoin(
+        Sale, User.id == Sale.user_id).group_by(User).all()
+    result = []
+    for target_list in join:
+        sale = 0.00
+        if target_list[1]:
+            sale = target_list[1]
+            sale = round(sale, 2)
+        new_result = {"user": json.loads(str(target_list[0])), "sale": sale}
+        result.append(new_result)
+
+    def funcSortSale(e):
+        return e['sale']
+    result.sort(reverse=True, key=funcSortSale)
+    del result[5:]
+    if len(result) > 0:
+        return jsonify(users=result), 200
     else:
-        return "[]", 200
+        return jsonify(users=[]), 200
+
+
+@app.route("/api/users/", methods=['GET'])
+# @jwt_required
+def show_top_users():
+    join = db.session.query(User, func.sum(Sale.total)).outerjoin(
+        Sale, User.id == Sale.user_id).group_by(User).all()
+    result = []
+    for target_list in join:
+        sale = 0.00
+        if target_list[1]:
+            sale = target_list[1]
+            sale = round(sale, 2)
+        new_result = {"user": json.loads(str(target_list[0])), "sale": sale}
+        result.append(new_result)
+    if len(result) > 0:
+        return jsonify(users=result), 200
+    else:
+        return jsonify(users=[]), 200

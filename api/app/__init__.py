@@ -4,9 +4,11 @@ from flask_script import Manager, Server
 from flask_migrate import Migrate, MigrateCommand
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object('config')
+CORS(app)
 
 jwt = JWTManager(app)
 

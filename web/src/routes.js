@@ -65,6 +65,11 @@ const routes = [
     component: DashboardLayout,
     routes: [
       {
+        path:'/userslist',
+        exact: true,
+        component: lazy(()=> import('views/UsersList'))
+      },
+      {
         path: '/calendar',
         exact: true,
         component: lazy(() => import('views/Calendar'))
