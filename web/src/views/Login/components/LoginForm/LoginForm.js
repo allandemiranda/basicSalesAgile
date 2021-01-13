@@ -79,7 +79,8 @@ const LoginForm = props => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    dispatch(login(formState, router));
+    await dispatch(login(formState, router));
+    router.history.push('/home')
   };
 
   const hasError = field =>

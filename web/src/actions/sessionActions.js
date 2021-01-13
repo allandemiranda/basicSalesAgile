@@ -21,7 +21,7 @@ export const login = (payload, router) => {
       }
       return dispatch(
         await setSession(response.data.token, response.data.user, router),
-        await router.history.push('/home')
+        // await router.history.push('/home')
       );
     }
   };
