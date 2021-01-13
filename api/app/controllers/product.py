@@ -12,7 +12,7 @@ def create_product():
     product = Product(name, value)
     db.session.add(product)
     db.session.commit()
-    return str(product), 200
+    return jsonify(product=json.loads(str(product))), 200
 
 
 @app.route("/api/product/<int:product_id>", methods=['GET', 'PUT'])
@@ -21,7 +21,7 @@ def find_product_by_id(product_id):
     product = Product.query.filter_by(id=product_id).first()
     if request.method == 'GET':
         if product:
-            return str(product), 200
+            return jsonify(product=json.loads(str(product))), 200
         else:
             return jsonify({"error": "There is no product with this id"}), 404
     else:
@@ -33,7 +33,7 @@ def find_product_by_id(product_id):
             product.value = new_value
         db.session.add(product)
         db.session.commit()
-        return str(product), 200
+        return jsonify(product=json.loads(str(product))), 200
 
 
 @app.route("/api/products/", methods=['GET'])
@@ -43,4 +43,4 @@ def show_all_products():
     if len(products) > 0:
         return jsonify(products=json.loads(str(products))), 200
     else:
-        return "[]", 200
+        return jsonify(products=[]), 200

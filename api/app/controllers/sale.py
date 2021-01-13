@@ -14,7 +14,7 @@ def create_sale():
     sale = Sale(product_id, quantity, total, user_id)
     db.session.add(sale)
     db.session.commit()
-    return str(sale), 200
+    return jsonify(sale=json.loads(str(sale))), 200
 
 
 @app.route("/api/product/<int:sale_id>", methods=['GET', 'PUT'])
@@ -23,7 +23,7 @@ def find_sale_by_id(sale_id):
     sale = Sale.query.filter_by(id=sale_id).first()
     if request.method == 'GET':
         if sale:
-            return str(sale), 200
+            return jsonify(sale=json.loads(str(sale))), 200
         else:
             return jsonify({"error": "There is no sale with this id"}), 404
     else:
@@ -38,7 +38,7 @@ def find_sale_by_id(sale_id):
             sale.total = new_total
         db.session.add(sale)
         db.session.commit()
-        return str(sale), 200
+        return jsonify(sale=json.loads(str(sale))), 200
 
 
 @app.route("/api/sales/", methods=['GET'])
@@ -48,4 +48,4 @@ def show_all_sales():
     if len(sales) > 0:
         return jsonify(sales=json.loads(str(sales))), 200
     else:
-        return "[]", 200
+        return jsonify(sales=[]), 200

@@ -7,7 +7,7 @@ from sqlalchemy.sql import func
 
 
 @app.route("/api/user", methods=['POST'])
-@jwt_required
+# @jwt_required
 def create_user():
     name = request.json['name']
     phone = request.json['phone']
@@ -52,16 +52,6 @@ def find_sales_by_userId(id):
         return jsonify(sales=json.loads(str(sales))), 200
     else:
         return jsonify({"error": "There is no sales with this id"}), 404
-
-
-@app.route("/api/user/<login>", methods=['GET'])
-@jwt_required
-def find_user_by_login(login):
-    user = User.query.filter_by(user_name=login).first()
-    if user:
-        return str(user), 200
-    else:
-        return jsonify({"error": "There is no user with this User_Name"}), 404
 
 
 @app.route("/api/topUsers/", methods=['GET'])
