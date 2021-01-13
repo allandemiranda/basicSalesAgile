@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core';
 import axios from 'utils/axios';
 import { GenericMoreButton } from 'components';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -43,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 const LatestProducts = props => {
   const { className, id, ...rest } = props;
-
+  const session = useSelector((state) => state.session);
   const classes = useStyles();
   const [sales, setSales] = useState(null);
 
@@ -51,7 +52,11 @@ const LatestProducts = props => {
     let mounted = true;
 
     const fetchSales = () => {
-      axios.get('/user/'+ id +'/sales/').then(response => {
+      axios.get('/user/'+ id +'/sales/', {
+        headers: {
+          Authorization: 'Bearer ' + session.token,
+        }
+      }).then(response => {
         if (mounted) {
           setSales(response.data.sales);
         }

@@ -2,18 +2,14 @@ import * as actionTypes from 'actions';
 
 const initialState = {
   user: {},
-  token: '',
-  erroLogin: false,
-  loggedIn: false
+  token: ''
 };
 
 const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SESSION_LOGIN: {
       return {
-        ...initialState,
-        loggedIn: true,
-        erroLogin: false,
+        ...state,
         token: action.token,
         user: action.user
       };
@@ -23,9 +19,7 @@ const sessionReducer = (state = initialState, action) => {
       return {
         ...state,
         user: {},
-        token: '',
-        erroLogin: false,
-        loggedIn: false
+        token: ''
       };
     }
 
@@ -33,9 +27,7 @@ const sessionReducer = (state = initialState, action) => {
       return {
         ...state,
         user: {},
-        token: '',
-        erroLogin: true,
-        loggedIn: false
+        token: ''
       };
     }
 

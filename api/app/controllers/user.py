@@ -7,7 +7,7 @@ from sqlalchemy.sql import func
 
 
 @app.route("/api/user", methods=['POST'])
-# @jwt_required
+@jwt_required
 def create_user():
     name = request.json['name']
     phone = request.json['phone']
@@ -24,7 +24,7 @@ def create_user():
 
 
 @app.route("/api/user/<int:user_id>", methods=['GET', 'PUT'])
-# @jwt_required
+@jwt_required
 def find_user_by_id(user_id):
     user = User.query.filter_by(id=user_id).first()
     if request.method == 'GET':
@@ -45,7 +45,7 @@ def find_user_by_id(user_id):
 
 
 @app.route("/api/user/<int:id>/sales/", methods=['GET'])
-# @jwt_required
+@jwt_required
 def find_sales_by_userId(id):
     sales = Sale.query.filter_by(user_id=id).all()
     if sales:
@@ -55,7 +55,7 @@ def find_sales_by_userId(id):
 
 
 @app.route("/api/user/<login>", methods=['GET'])
-# @jwt_required
+@jwt_required
 def find_user_by_login(login):
     user = User.query.filter_by(user_name=login).first()
     if user:
@@ -65,7 +65,7 @@ def find_user_by_login(login):
 
 
 @app.route("/api/topUsers/", methods=['GET'])
-# @jwt_required
+@jwt_required
 def show_all_users():
     join = db.session.query(User, func.sum(Sale.total)).outerjoin(
         Sale, User.id == Sale.user_id).group_by(User).all()
@@ -89,7 +89,7 @@ def show_all_users():
 
 
 @app.route("/api/users/", methods=['GET'])
-# @jwt_required
+@jwt_required
 def show_top_users():
     join = db.session.query(User, func.sum(Sale.total)).outerjoin(
         Sale, User.id == Sale.user_id).group_by(User).order_by(User.id).all()

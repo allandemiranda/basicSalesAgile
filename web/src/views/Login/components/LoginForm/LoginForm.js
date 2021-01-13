@@ -5,9 +5,8 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { Button, TextField } from '@material-ui/core';
-
-import useRouter from 'utils/useRouter';
 import { login } from 'actions';
+import useRouter from 'utils/useRouter';
 
 const schema = {
   user_name: {
@@ -39,7 +38,7 @@ const LoginForm = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
-  // const router = useRouter();
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const [formState, setFormState] = useState({
@@ -80,7 +79,7 @@ const LoginForm = props => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    dispatch(login());
+    dispatch(login(formState, router));
   };
 
   const hasError = field =>

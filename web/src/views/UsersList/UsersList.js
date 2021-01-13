@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 import { Page, Header, ListUsers } from 'components';
 import axios from 'utils/axios';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles(theme => ({
 
 const DashboardAnalytics = () => {
   const classes = useStyles();
+  const session = useSelector((state) => state.session);
 
   const [users, setUsers] = useState([]);
 
@@ -24,7 +26,11 @@ const DashboardAnalytics = () => {
     let mounted = true;
 
     const fetchUsers = () => {
-      axios.get('/users/').then(response => {
+      axios.get('/users/', {
+        headers: {
+          Authorization: 'Bearer ' + session.token,
+        }
+      }).then(response => {
         if (mounted) {
           setUsers(response.data.users);
         }

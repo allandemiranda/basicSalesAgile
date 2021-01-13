@@ -10,9 +10,11 @@ import {
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 
-import { Page } from 'components';
+import { Page, Alert } from 'components';
 import gradients from 'utils/gradients';
 import { LoginForm } from './components';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteAlert } from 'actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -78,6 +80,8 @@ const useStyles = makeStyles(theme => ({
 
 const Login = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const alert = useSelector((state) => state.alert);
 
   return (
     <Page
@@ -86,6 +90,12 @@ const Login = () => {
     >
       <Card className={classes.card}>
         <CardContent className={classes.content}>
+          {alert.open && 
+          <Alert
+            message={alert.message}
+            onClose={()=> dispatch(deleteAlert())}
+            variant={alert.variant}
+          />}
           <LockIcon className={classes.icon} />
           <Typography
             gutterBottom

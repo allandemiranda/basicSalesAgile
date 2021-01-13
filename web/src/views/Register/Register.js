@@ -9,10 +9,11 @@ import {
   Link,
 } from '@material-ui/core';
 import PersonAddIcon from '@material-ui/icons/PersonAddOutlined';
-
 import gradients from 'utils/gradients';
-import { Page } from 'components';
+import { Page, Alert } from 'components';
 import { RegisterForm } from './components';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteAlert } from 'actions';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -78,14 +79,25 @@ const useStyles = makeStyles(theme => ({
 
 const Register = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const alert = useSelector((state) => state.alert);
 
   return (
     <Page
       className={classes.root}
       title="Register"
     >
+      
       <Card className={classes.card}>
+        
         <CardContent className={classes.content}>
+          {alert.open && 
+          <Alert
+            message={alert.message}
+            onClose={()=> dispatch(deleteAlert())}
+            variant={alert.variant}
+          />}
+          <br />
           <PersonAddIcon className={classes.icon} />
           <Typography
             gutterBottom

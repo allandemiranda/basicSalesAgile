@@ -1,5 +1,5 @@
 import axios from 'utils/axios';
-
+import { newAlert } from 'actions';
 export const SESSION_LOGIN = 'SESSION_LOGIN';
 export const SESSION_LOGOUT = 'SESSION_LOGOUT';
 export const SESSION_ERROR = 'SESSION_ERROR';
@@ -11,9 +11,8 @@ export const login = (payload, router) => {
       password: payload.values.password
     };
     const response = await axios
-      .post('/auth/local/', dados)
-      .catch(async err => {
-        console.log('/auth/local/', err);
+      .post('/auth/local', dados)
+      .catch(async () => {
         dispatch(await erroSession());
       });
     if (response) {
@@ -22,14 +21,20 @@ export const login = (payload, router) => {
       }
       return dispatch(
         await setSession(response.data.token, response.data.user, router),
-        router.history.push('/home')
+        await router.history.push('/home')
       );
     }
   };
 };
 
+
 export const erroSession = async () => {
   return async dispatch => {
+    const alertaError = {
+      message: 'Wrong username or password',
+      variant: 'error'
+    }
+    dispatch(newAlert(alertaError))
     dispatch({
       type: SESSION_ERROR
     });

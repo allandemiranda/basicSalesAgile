@@ -80,12 +80,11 @@ const TopBar = props => {
   const { onOpenNavBarMobile, className, ...rest } = props;
 
   const classes = useStyles();
-  const { history } = useRouter();
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleLogout = () => {
-    history.push('/auth/login');
-    dispatch(logout());
+    dispatch(logout(router));
   };
 
   return (

@@ -1,10 +1,14 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { renderRoutes } from 'react-router-config';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { LinearProgress } from '@material-ui/core';
-
+import { useSelector } from 'react-redux';
 import { NavBar, TopBar } from './components';
+import axios from 'utils/axios';
+import { useDispatch } from 'react-redux';
+import { logout } from 'actions';
+import useRouter from 'utils/useRouter';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -37,6 +41,25 @@ const useStyles = makeStyles(() => ({
 
 const Dashboard = props => {
   const { route } = props;
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const session = useSelector((state) => state.session);
+
+  useEffect(()=>{
+    console.log(session)
+    if(session.token){
+      axios.get('/user/'+ session.user.id, {
+        headers: {
+          Authorization: 'Bearer ' + session.token,
+        }
+      }).catch(()=>{
+        dispatch(logout(router));
+      })
+    } else {
+      dispatch(logout(router));
+    }
+  },[])
 
   const classes = useStyles();
   const [openNavBarMobile, setOpenNavBarMobile] = useState(false);

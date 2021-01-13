@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import axios from 'utils/axios';
 import { Page, Header } from 'components';
 import { LatestProducts, ProfileDetails} from './components';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,13 +22,18 @@ const UserDetails = (props) => {
   const { match } = props;
   const classes = useStyles();
   const { id } = match.params;
+  const session = useSelector((state) => state.session);
 
   const [user, setUser] = useState({});
 
   useEffect(() => {
     let mounted = true;
     const fetchUser = () => {
-      axios.get('/user/' + id).then(response => {
+      axios.get('/user/' + id, {
+        headers: {
+          Authorization: 'Bearer ' + session.token,
+        }
+      }).then(response => {
         if (mounted) {
           setUser(response.data.user);
         }

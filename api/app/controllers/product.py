@@ -16,7 +16,7 @@ def create_product():
 
 
 @app.route("/api/product/<int:product_id>", methods=['GET', 'PUT'])
-###@jwt_required
+@jwt_required
 def find_product_by_id(product_id):
     product = Product.query.filter_by(id=product_id).first()
     if request.method == 'GET':
@@ -37,7 +37,7 @@ def find_product_by_id(product_id):
 
 
 @app.route("/api/products/", methods=['GET'])
-###@jwt_required
+@jwt_required
 def show_all_products():
     products = Product.query.order_by(Product.id).all()
     if len(products) > 0:

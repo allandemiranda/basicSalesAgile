@@ -1,7 +1,5 @@
 import axios from 'utils/axios';
-
-export const REGISTRATIO_SUCCESS = 'REGISTRATIO_SUCCESS';
-export const REGISTRATIO_ERROR = 'REGISTRATIO_ERROR';
+import { newAlert } from 'actions';
 
 export const newUser = (payload, history) => {
   return async (dispatch) => {
@@ -12,29 +10,26 @@ export const newUser = (payload, history) => {
       password: payload.values.password      
     };
 
-    await axios
-      .post('/user', user)
-      .then(function (response) {
-        console.log(response)
-        return dispatch(
-          {
-            type: REGISTRATIO_SUCCESS,
-            nomeFuncao: 'newUser',
-          },
-          history.push('/auth/login')
-        );
-      })
-      .catch(function (error) {  
-        console.log(error)      
-        return dispatch(
-          {
-            type: REGISTRATIO_ERROR,
-            nomeFuncao: 'newUser',
-            dados: error,
-          },
-          history.push('/auth/register/')
-        );
-        
+    const alertaError = {
+      message: 'Error when registering',
+      variant: 'error'
+    }    
+
+    const alertaCreate = {
+      message: 'User created',
+      variant: 'success'
+    } 
+
+    const response = await axios
+      .post('/user', user)      
+      .catch(function () {     
+        console.log('AQUI') 
+        return dispatch(newAlert(alertaError))        
       });
+    
+    if(response){
+      dispatch(newAlert(alertaCreate))          
+      return history.push('/auth/login')      
+    }
   };
 };

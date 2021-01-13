@@ -12,7 +12,7 @@ import {
   Typography,
   Link
 } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { newUser } from 'actions';
 import useRouter from 'utils/useRouter';
 
@@ -77,11 +77,6 @@ const RegisterForm = props => {
   const classes = useStyles();
   const { history } = useRouter();
   const dispatch = useDispatch();
-  const session = useSelector((state) => state.session);
-
-  useEffect(()=>{
-    console.log(session)
-  }, [session])
 
   const [formState, setFormState] = useState({
     isValid: false,
@@ -121,7 +116,7 @@ const RegisterForm = props => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    await dispatch(newUser(formState, history));
+    dispatch(newUser(formState, history));
   };
 
   const hasError = field =>

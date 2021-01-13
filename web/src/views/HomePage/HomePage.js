@@ -6,6 +6,7 @@ import gradients from 'utils/gradients';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import ExtensionIcon from '@material-ui/icons/Extension';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
+import { useSelector } from 'react-redux';
 import axios from 'utils/axios';
 
 const useStyles = makeStyles(theme => ({
@@ -20,14 +21,18 @@ const useStyles = makeStyles(theme => ({
 const HomePage = () => {
   const classes = useStyles();
 
-  const name = 'Allan' // PRECISA DO TOKEN AQUI
+  const session = useSelector((state) => state.session);
 
   const [topUsers, setTopUsers] = useState([]);
   useEffect(() => {
     let mounted = true;
 
     const fetchUsers = () => {
-      axios.get('/topUsers/').then(response => {
+      axios.get('/topUsers/', {
+        headers: {
+          Authorization: 'Bearer ' + session.token,
+        }
+      }).then(response => {
         if (mounted) {
           setTopUsers(response.data.users);
         }
@@ -46,7 +51,11 @@ const HomePage = () => {
     let mounted = true;
 
     const fetchUsers = () => {
-      axios.get('/users/').then(response => {
+      axios.get('/users/', {
+        headers: {
+          Authorization: 'Bearer ' + session.token,
+        }
+      }).then(response => {
         if (mounted) {
           setNumberUsers(response.data.users.length);
         }
@@ -65,7 +74,11 @@ const HomePage = () => {
     let mounted = true;
 
     const fetchProducts = () => {
-      axios.get('/products/').then(response => {
+      axios.get('/products/', {
+        headers: {
+          Authorization: 'Bearer ' + session.token,
+        }
+      }).then(response => {
         if (mounted) {
           setNumberProducts(response.data.products.length);
         }
@@ -84,7 +97,11 @@ const HomePage = () => {
     let mounted = true;
 
     const fetchSales = () => {
-      axios.get('/sales/').then(async response => {
+      axios.get('/sales/', {
+        headers: {
+          Authorization: 'Bearer ' + session.token,
+        }
+      }).then(async response => {
         if (mounted) {
           const data = response.data.sales
           const arrSum = function(arr){
@@ -110,7 +127,7 @@ const HomePage = () => {
       title="Home Page"
     >
       <Header
-        titleName={'Hi ' + name}
+        titleName={'Hi ' + session.user.name}
         titleSecond="Home"
       />
       <ListUsers
