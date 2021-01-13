@@ -16,7 +16,7 @@ import {
   colors,
   TableBody
 } from '@material-ui/core';
-
+import useRouter from 'utils/useRouter';
 import { GenericMoreButton } from 'components';
 
 const useStyles = makeStyles(theme => ({
@@ -71,6 +71,7 @@ const ListUsers = props => {
   const { className, title, users, ...rest } = props;
 
   const classes = useStyles();
+  const { history } = useRouter();
 
   return (
     <Card
@@ -91,6 +92,7 @@ const ListUsers = props => {
                   <TableRow
                     hover
                     key={users.user.id}
+                    onClick={() => history.push('/user/'+users.user.id)}
                   >
                     <TableCell>
                       <div className={classes.details}>

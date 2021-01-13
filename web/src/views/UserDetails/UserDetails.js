@@ -26,7 +26,6 @@ const UserDetails = (props) => {
 
   useEffect(() => {
     let mounted = true;
-
     const fetchUser = () => {
       axios.get('/user/' + id).then(response => {
         if (mounted) {
@@ -40,10 +39,9 @@ const UserDetails = (props) => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [id]);
 
   const [sales, setSales] = useState(0.00);
-
   useEffect(() => {
     let mounted = true;
 
@@ -66,7 +64,7 @@ const UserDetails = (props) => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [id]);
 
   return (
     <Page

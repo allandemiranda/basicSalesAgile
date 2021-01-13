@@ -126,7 +126,7 @@ const TopBar = props => {
 
   const handleLogout = () => {
     history.push('/auth/login');
-    // dispatch(logout());
+    dispatch(logout());
   };
 
   const handlePricingOpen = () => {
@@ -182,73 +182,8 @@ const TopBar = props => {
             src="/images/logos/logo--white.svg"
           />
         </RouterLink>
-        <div className={classes.flexGrow} />
-        <Hidden smDown>
-          <div
-            className={classes.search}
-            ref={searchRef}
-          >
-            <SearchIcon className={classes.searchIcon} />
-            <Input
-              className={classes.searchInput}
-              disableUnderline
-              onChange={handleSearchChange}
-              placeholder="Search people &amp; places"
-              value={searchValue}
-            />
-          </div>
-          <Popper
-            anchorEl={searchRef.current}
-            className={classes.searchPopper}
-            open={openSearchPopover}
-            transition
-          >
-            <ClickAwayListener onClickAway={handleSearchPopverClose}>
-              <Paper
-                className={classes.searchPopperContent}
-                elevation={3}
-              >
-                <List>
-                  {popularSearches.map(search => (
-                    <ListItem
-                      button
-                      key={search}
-                      onClick={handleSearchPopverClose}
-                    >
-                      <ListItemIcon>
-                        <SearchIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={search} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Paper>
-            </ClickAwayListener>
-          </Popper>
-          <Button
-            className={classes.trialButton}
-            onClick={handlePricingOpen}
-            variant="contained"
-          >
-            <LockIcon className={classes.trialIcon} />
-            Trial expired
-          </Button>
-        </Hidden>
-        <Hidden mdDown>
-          <IconButton
-            className={classes.notificationsButton}
-            color="inherit"
-            onClick={handleNotificationsOpen}
-            ref={notificationsRef}
-          >
-            <Badge
-              badgeContent={notifications.length}
-              classes={{ badge: classes.notificationsBadge }}
-              variant="dot"
-            >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+        <div className={classes.flexGrow} />        
+        <Hidden mdDown>          
           <Button
             className={classes.logoutButton}
             color="inherit"
@@ -267,16 +202,6 @@ const TopBar = props => {
           </IconButton>
         </Hidden>
       </Toolbar>
-      <PricingModal
-        onClose={handlePricingClose}
-        open={pricingModalOpen}
-      />
-      <NotificationsPopover
-        anchorEl={notificationsRef.current}
-        notifications={notifications}
-        onClose={handleNotificationsClose}
-        open={openNotifications}
-      />
     </AppBar>
   );
 };

@@ -63,7 +63,7 @@ const LatestProducts = props => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [id]);
 
   return (
     <Card
