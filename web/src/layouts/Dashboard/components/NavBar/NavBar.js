@@ -47,7 +47,7 @@ const NavBar = props => {
     if (openMobile) {
       onMobileClose && onMobileClose();
     }
-  }, [router.location.pathname]);
+  }, [router.location.pathname, openMobile, onMobileClose]);
 
   const navbarContent = (
     <div className={classes.content}>      

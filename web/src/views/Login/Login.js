@@ -4,11 +4,9 @@ import { makeStyles } from '@material-ui/styles';
 import {
   Card,
   CardContent,
-  CardMedia,
   Typography,
   Divider,
   Link,
-  Avatar
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 
@@ -25,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(6, 2)
   },
   card: {
-    width: theme.breakpoints.values.md,
+    width: '340px',
     maxWidth: '100%',
     overflow: 'unset',
     display: 'flex',
@@ -110,41 +108,7 @@ const Login = () => {
           >
             Don't have an account?
           </Link>
-        </CardContent>
-        <CardMedia
-          className={classes.media}
-          image="/images/auth.png"
-          title="Cover"
-        >
-          <Typography
-            color="inherit"
-            variant="subtitle1"
-          >
-            Hella narvwhal Cosby sweater McSweeney's, salvia kitsch before they
-            sold out High Life.
-          </Typography>
-          <div className={classes.person}>
-            <Avatar
-              alt="Person"
-              className={classes.avatar}
-              src="/images/avatars/avatar_2.png"
-            />
-            <div>
-              <Typography
-                color="inherit"
-                variant="body1"
-              >
-                Ekaterina Tankova
-              </Typography>
-              <Typography
-                color="inherit"
-                variant="body2"
-              >
-                Manager at inVision
-              </Typography>
-            </div>
-          </div>
-        </CardMedia>
+        </CardContent>        
       </Card>
     </Page>
   );

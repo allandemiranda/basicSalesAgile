@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import validate from 'validate.js';
 import clsx from 'clsx';
@@ -11,9 +10,8 @@ import useRouter from 'utils/useRouter';
 import { login } from 'actions';
 
 const schema = {
-  email: {
+  user_name: {
     presence: { allowEmpty: false, message: 'is required' },
-    email: true
   },
   password: {
     presence: { allowEmpty: false, message: 'is required' }
@@ -41,7 +39,7 @@ const LoginForm = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
-  const router = useRouter();
+  // const router = useRouter();
   const dispatch = useDispatch();
 
   const [formState, setFormState] = useState({
@@ -82,8 +80,7 @@ const LoginForm = props => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    // dispatch(login());
-    router.history.push('/');
+    dispatch(login());
   };
 
   const hasError = field =>
@@ -97,13 +94,13 @@ const LoginForm = props => {
     >
       <div className={classes.fields}>
         <TextField
-          error={hasError('email')}
+          error={hasError('user_name')}
           fullWidth
-          helperText={hasError('email') ? formState.errors.email[0] : null}
-          label="Email address"
-          name="email"
+          helperText={hasError('user_name') ? formState.errors.user_name[0] : null}
+          label="User Name"
+          name="user_name"
           onChange={handleChange}
-          value={formState.values.email || ''}
+          value={formState.values.user_name || ''}
           variant="outlined"
         />
         <TextField

@@ -75,9 +75,13 @@ const RegisterForm = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
-  const { history, router } = useRouter();
-  const session = useSelector((state) => state.session);
+  const { history } = useRouter();
   const dispatch = useDispatch();
+  const session = useSelector((state) => state.session);
+
+  useEffect(()=>{
+    console.log(session)
+  }, [session])
 
   const [formState, setFormState] = useState({
     isValid: false,
@@ -118,7 +122,6 @@ const RegisterForm = props => {
   const handleSubmit = async event => {
     event.preventDefault();
     await dispatch(newUser(formState, history));
-    // history.push('/auth/login');
   };
 
   const hasError = field =>

@@ -1,32 +1,41 @@
 import * as actionTypes from 'actions';
 
 const initialState = {
-  loggedIn: true,
-  user: {
-    first_name: 'Shen',
-    last_name: 'Zhi',
-    email: 'demo@devias.io',
-    avatar: '/images/avatars/avatar_11.png',
-    bio: 'Brain Director',
-    role: 'ADMIN' // ['GUEST', 'USER', 'ADMIN']
-  }
+  user: {},
+  token: '',
+  erroLogin: false,
+  loggedIn: false
 };
 
 const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SESSION_LOGIN: {
       return {
-        ...initialState
+        ...initialState,
+        loggedIn: true,
+        erroLogin: false,
+        token: action.token,
+        user: action.user
       };
     }
 
     case actionTypes.SESSION_LOGOUT: {
       return {
         ...state,
-        loggedIn: false,
-        user: {
-          role: 'GUEST'
-        }
+        user: {},
+        token: '',
+        erroLogin: false,
+        loggedIn: false
+      };
+    }
+
+    case actionTypes.SESSION_ERROR: {
+      return {
+        ...state,
+        user: {},
+        token: '',
+        erroLogin: true,
+        loggedIn: false
       };
     }
 
