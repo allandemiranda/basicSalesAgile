@@ -70,9 +70,14 @@ const routes = [
         component: lazy(()=> import('views/HomePage'))
       },
       {
-        path:'/userslist',
+        path:'/users',
         exact: true,
         component: lazy(()=> import('views/UsersList'))
+      },
+      {
+        path:'/user/:id',
+        exact: true,
+        component: lazy(()=> import('views/UserDetails'))
       },
       {
         path: '/calendar',

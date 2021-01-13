@@ -29,7 +29,7 @@ def find_user_by_id(user_id):
     user = User.query.filter_by(id=user_id).first()
     if request.method == 'GET':
         if user:
-            return str(user), 200
+            return jsonify(user=json.loads(str(user))), 200
         else:
             return jsonify({"error": "There is no user with this id"}), 404
     else:
@@ -41,7 +41,17 @@ def find_user_by_id(user_id):
             user.phone = new_phone
         db.session.add(user)
         db.session.commit()
-        return str(user), 200
+        return jsonify(user=json.loads(str(user))), 200
+
+
+@app.route("/api/user/<int:id>/sales/", methods=['GET'])
+# @jwt_required
+def find_sales_by_userId(id):
+    sales = Sale.query.filter_by(user_id=id).all()
+    if sales:
+        return jsonify(sales=json.loads(str(sales))), 200
+    else:
+        return jsonify({"error": "There is no sales with this id"}), 404
 
 
 @app.route("/api/user/<login>", methods=['GET'])
