@@ -25,3 +25,4 @@ export { default as TableEditBar } from './TableEditBar';
 
 export { default as Header } from './Header';
 export { default as ListUsers } from './ListUsers';
+export { default as CardHome } from './CardHome';

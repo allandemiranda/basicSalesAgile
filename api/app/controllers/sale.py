@@ -46,6 +46,6 @@ def find_sale_by_id(sale_id):
 def show_all_sales():
     sales = Sale.query.order_by(Sale.id).all()
     if len(sales) > 0:
-        return str(sales), 200
+        return jsonify(sales=json.loads(str(sales))), 200
     else:
         return "[]", 200

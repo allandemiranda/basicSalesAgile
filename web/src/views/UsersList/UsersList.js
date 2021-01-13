@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
-
-import { Page, Header,
-  ListUsers } from 'components';
-
+import { Page, Header, ListUsers } from 'components';
 import axios from 'utils/axios';
 
 const useStyles = makeStyles(theme => ({

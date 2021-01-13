@@ -82,7 +82,7 @@ def show_all_users():
 # @jwt_required
 def show_top_users():
     join = db.session.query(User, func.sum(Sale.total)).outerjoin(
-        Sale, User.id == Sale.user_id).group_by(User).all()
+        Sale, User.id == Sale.user_id).group_by(User).order_by(User.id).all()
     result = []
     for target_list in join:
         sale = 0.00

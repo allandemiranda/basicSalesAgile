@@ -41,6 +41,6 @@ def find_product_by_id(product_id):
 def show_all_products():
     products = Product.query.order_by(Product.id).all()
     if len(products) > 0:
-        return str(products), 200
+        return jsonify(products=json.loads(str(products))), 200
     else:
         return "[]", 200
