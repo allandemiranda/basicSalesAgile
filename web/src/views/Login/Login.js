@@ -79,7 +79,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Login = () => {
-  const classes = useStyles();
+  const classes = useStyles(); 
   const dispatch = useDispatch();
   const alert = useSelector((state) => state.alert);
 

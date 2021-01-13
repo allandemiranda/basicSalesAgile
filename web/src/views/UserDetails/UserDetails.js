@@ -52,7 +52,11 @@ const UserDetails = (props) => {
     let mounted = true;
 
     const fetchSales = () => {
-      axios.get('/user/'+ id +'/sales/').then(response => {
+      axios.get('/user/'+ id +'/sales/', {
+        headers: {
+          Authorization: 'Bearer ' + session.token,
+        }
+      }).then(response => {
         if (mounted) {
           const data = response.data.sales
           const arrSum = function(arr){
@@ -70,7 +74,7 @@ const UserDetails = (props) => {
     return () => {
       mounted = false;
     };
-  }, [id]);
+  }, [id, session.token]);
 
   return (
     <Page

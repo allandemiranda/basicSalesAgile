@@ -95,7 +95,7 @@ const Register = () => {
           <Alert
             message={alert.message}
             onClose={()=> dispatch(deleteAlert())}
-            variant={alert.variant}
+            variant={alert.variant} 
           />}
           <br />
           <PersonAddIcon className={classes.icon} />

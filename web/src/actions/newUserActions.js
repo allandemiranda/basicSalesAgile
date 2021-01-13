@@ -22,8 +22,7 @@ export const newUser = (payload, history) => {
 
     const response = await axios
       .post('/user', user)      
-      .catch(function () {     
-        console.log('AQUI') 
+      .catch(function () {    
         return dispatch(newAlert(alertaError))        
       });
     
