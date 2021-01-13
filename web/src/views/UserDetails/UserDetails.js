@@ -45,7 +45,7 @@ const UserDetails = (props) => {
     return () => {
       mounted = false;
     };
-  }, [id]);
+  }, [id, session.token]);
 
   const [sales, setSales] = useState(0.00);
   useEffect(() => {

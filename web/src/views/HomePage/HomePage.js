@@ -44,7 +44,7 @@ const HomePage = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [session.token]);
 
   const [numberUsers, setNumberUsers] = useState(0);
   useEffect(() => {
@@ -67,7 +67,7 @@ const HomePage = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [session.token]);
 
   const [numberProducts, setNumberProducts] = useState(0);
   useEffect(() => {
@@ -90,7 +90,7 @@ const HomePage = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [session.token]);
 
   const [numberSales, setNumberSales] = useState(0);
   useEffect(() => {
@@ -119,7 +119,7 @@ const HomePage = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [session.token]);
 
   return (
     <Page

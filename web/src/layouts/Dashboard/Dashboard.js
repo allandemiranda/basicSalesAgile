@@ -47,7 +47,6 @@ const Dashboard = props => {
   const session = useSelector((state) => state.session);
 
   useEffect(()=>{
-    console.log(session)
     if(session.token){
       axios.get('/user/'+ session.user.id, {
         headers: {
@@ -59,7 +58,7 @@ const Dashboard = props => {
     } else {
       dispatch(logout(router));
     }
-  },[])
+  },[session.token, dispatch, router, session.user.id])
 
   const classes = useStyles();
   const [openNavBarMobile, setOpenNavBarMobile] = useState(false);

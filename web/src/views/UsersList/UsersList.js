@@ -42,7 +42,7 @@ const DashboardAnalytics = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [session.token]);
 
   return (
     <Page

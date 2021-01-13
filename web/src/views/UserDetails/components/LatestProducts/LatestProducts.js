@@ -68,7 +68,7 @@ const LatestProducts = props => {
     return () => {
       mounted = false;
     };
-  }, [id]);
+  }, [id, session.token]);
 
   return (
     <Card
