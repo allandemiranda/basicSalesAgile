@@ -4,7 +4,7 @@ from app.models.productShema import Product
 from flask_jwt_extended import jwt_required
 
 
-@app.route("/api/product/", methods=['POST'])
+@app.route("/api/product", methods=['POST'])
 @jwt_required
 def create_product():
     name = request.json['name']

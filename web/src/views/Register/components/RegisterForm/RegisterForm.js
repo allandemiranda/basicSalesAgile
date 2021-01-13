@@ -12,27 +12,27 @@ import {
   Typography,
   Link
 } from '@material-ui/core';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { newUser } from 'actions';
 import useRouter from 'utils/useRouter';
 
 const schema = {
-  firstName: {
+  name: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 32
     }
   },
-  lastName: {
+  user_name: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 32
     }
   },
-  email: {
+  phone: {
     presence: { allowEmpty: false, message: 'is required' },
-    email: true,
     length: {
-      maximum: 64
+      maximum: 32
     }
   },
   password: {
@@ -75,7 +75,9 @@ const RegisterForm = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
-  const { history } = useRouter();
+  const { history, router } = useRouter();
+  const session = useSelector((state) => state.session);
+  const dispatch = useDispatch();
 
   const [formState, setFormState] = useState({
     isValid: false,
@@ -115,7 +117,8 @@ const RegisterForm = props => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    history.push('/');
+    await dispatch(newUser(formState, history));
+    // history.push('/auth/login');
   };
 
   const hasError = field =>
@@ -129,35 +132,36 @@ const RegisterForm = props => {
     >
       <div className={classes.fields}>
         <TextField
-          error={hasError('firstName')}
+          error={hasError('name')}
           helperText={
-            hasError('firstName') ? formState.errors.firstName[0] : null
+            hasError('name') ? formState.errors.name[0] : null
           }
-          label="First name"
-          name="firstName"
+          label="Name"
+          name="name"
           onChange={handleChange}
-          value={formState.values.firstName || ''}
+          value={formState.values.name || ''}
           variant="outlined"
         />
         <TextField
-          error={hasError('lastName')}
+          error={hasError('user_name')}
           helperText={
-            hasError('lastName') ? formState.errors.lastName[0] : null
+            hasError('user_name') ? formState.errors.user_name[0] : null
           }
-          label="Last name"
-          name="lastName"
+          label="User Name"
+          name="user_name"
           onChange={handleChange}
-          value={formState.values.lastName || ''}
+          value={formState.values.user_name || ''}
           variant="outlined"
         />
         <TextField
-          error={hasError('email')}
-          fullWidth
-          helperText={hasError('email') ? formState.errors.email[0] : null}
-          label="Email address"
-          name="email"
+          error={hasError('phone')}
+          helperText={
+            hasError('phone') ? formState.errors.phone[0] : null
+          }
+          label="Phone"
+          name="phone"
           onChange={handleChange}
-          value={formState.values.email || ''}
+          value={formState.values.phone || ''}
           variant="outlined"
         />
         <TextField

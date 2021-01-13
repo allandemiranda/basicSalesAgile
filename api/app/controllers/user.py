@@ -6,7 +6,7 @@ from flask_jwt_extended import jwt_required
 from sqlalchemy.sql import func
 
 
-@app.route("/api/user/", methods=['POST'])
+@app.route("/api/user", methods=['POST'])
 # @jwt_required
 def create_user():
     name = request.json['name']
