@@ -7,9 +7,10 @@ const agent = new https.Agent({
 });
 
 const instance = axios.create({
-  baseURL: 'https://flask-agile:5000/api/',
+  baseURL: 'https://localhost:5000/api/',
   responseType: 'json',
-  httpsAgent: agent
+  httpsAgent: agent,
+  crossDomain: true
 });
 
 export default instance;
