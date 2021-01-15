@@ -19,8 +19,8 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
-manager.add_command("runserver", Server(ssl_crt="cert.pem", ssl_key="key.pem"))
+manager.add_command('runserver', Server(
+    host='0.0.0.0', port=5000, ssl_crt='cert.pem', ssl_key='key.pem'))
 
 from app.models import productShema, saleSchema, userSchema
-
 from app.controllers import default, auth, user, product, sale
