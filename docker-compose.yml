@@ -1,0 +1,47 @@
+version: "3"
+services:
+  db:
+    image: postgres
+    container_name: postgres-agile
+    restart: always
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: allanmiranda
+      POSTGRES_PASSWORD: senha123
+      POSTGRES_DB: agile_db
+    expose:
+      - "5432"
+    ports:
+      - 5432:5432
+  api:
+    build: "./api"
+    image: agile/api-flask:latest
+    container_name: flask-agile
+    restart: always
+    working_dir: /usr/src/app
+    command: python3 run.py runserver
+    volumes:
+      - ./api:/usr/src/app
+    expose:
+      - "5000"
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+  web:
+    build: "./web"
+    image: agile/web-react:latest
+    container_name: react-agile
+    volumes:
+      - ./web:/home/node/app
+      - /app/node_modules
+    expose:
+      - "3000"
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
