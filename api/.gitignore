@@ -139,3 +139,7 @@ cython_debug/
 
 # Migrations
 migrations/
+
+# SSL Key
+cert.pem
+key.pem
