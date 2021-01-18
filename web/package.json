@@ -3,7 +3,7 @@
   "author": "Allan de Miranda",
   "email": "allandemiranda@gmail.com",
   "licence": "UNLICENSED",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "start": "HTTPS=true PORT=3000 react-scripts start",

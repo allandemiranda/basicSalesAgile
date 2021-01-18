@@ -45,3 +45,14 @@ services:
     stdin_open: true
     environment:
       - CHOKIDAR_USEPOLLING=true
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: swagger-ui
+    expose:
+      - "8080"
+    ports:
+      - 8080:8080
+    volumes:
+      - ./swagger:/usr/share/nginx/html/swagger
+    environment:
+      API_URL: swagger/openapi.yaml

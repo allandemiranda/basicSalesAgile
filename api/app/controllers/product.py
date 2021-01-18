@@ -12,7 +12,7 @@ def create_product():
     product = Product(name, value)
     db.session.add(product)
     db.session.commit()
-    return jsonify(product=json.loads(str(product))), 200
+    return jsonify(product=json.loads(str(product))), 201
 
 
 @app.route("/api/product/<int:product_id>", methods=['GET', 'PUT'])

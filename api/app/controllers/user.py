@@ -20,7 +20,7 @@ def create_user():
     except Exception as inst:
         print(inst.args)
         return jsonify({"error": "Cannot process the request because it is malformed or incorrect"}), 400
-    return str(user), 200
+    return str(user), 201
 
 
 @app.route("/api/user/<int:user_id>", methods=['GET', 'PUT'])
