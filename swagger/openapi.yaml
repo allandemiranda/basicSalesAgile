@@ -14,8 +14,9 @@ tags:
   - name: "Sale"
     description: "Sales from the Users"
   - name: "Product"
-    description: "Products to sales"  
+    description: "Products to sales"
 paths:
+# Auth route 
   /auth/local:
     post:
       tags:
@@ -48,7 +49,6 @@ paths:
                 type: object
                 properties:
                   user:
-                    type: object
                     items:
                       $ref: "#/components/schemas/User"
                   token:
@@ -61,6 +61,7 @@ paths:
           description: "Server error"
         default:
           description: "Unexpected error"
+# User route 
   /user:
     post:
       tags:
@@ -100,7 +101,6 @@ paths:
                 type: object
                 properties:
                   user:
-                    type: object
                     items:
                       $ref: "#/components/schemas/User"
         "500":
@@ -131,7 +131,51 @@ paths:
                 type: object
                 properties:
                   user:
-                    type: object
+                    items:
+                      $ref: "#/components/schemas/User"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - "User"
+      summary: "Modify a specific user"
+      description: ""
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: The ID of the user to return
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        description: ""
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: "string"
+                  description: "Name user"
+                phone:
+                  type: "string"
+                  description: "Phone of user"
+      responses:
+        "200":
+          description: "A user"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
                     items:
                       $ref: "#/components/schemas/User"
         "500":
@@ -221,7 +265,298 @@ paths:
           description: "Unexpected error"
       security:
         - bearerAuth: []
-
+# Sale route 
+  /sale:
+    post:
+      tags:
+        - "Sale"
+      summary: "Create sale"
+      requestBody:
+        required: true
+        description: ""
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: "string"
+                  description: "Product ID"
+                quantity:
+                  type: "number"
+                  format: "int"
+                  description: "Quantity of products"
+                total:
+                  type: "number"
+                  format: "float"
+                  description: "Total of sale"
+              required:
+                - product_id
+                - quantity
+                - total
+      responses:
+        "201":
+          description: "A sale object"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    items:
+                      $ref: "#/components/schemas/Sale"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+      security:
+        - bearerAuth: []
+  /sale/{sale_id}:
+    get:
+      tags:
+        - "Sale"
+      summary: "Get a specific sale"
+      description: ""
+      parameters:
+        - name: sale_id
+          in: path
+          required: true
+          description: The ID of the sale to return
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        "200":
+          description: "A sale"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sale:
+                    items:
+                      $ref: "#/components/schemas/Sale"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - "Sale"
+      summary: "Modify a specific sale"
+      description: ""
+      parameters:
+        - name: sale_id
+          in: path
+          required: true
+          description: The ID of the sale to return
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        description: ""
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: "number"
+                  format: "int"
+                  description: "Quantity of products"
+                total:
+                  type: "number"
+                  format: "float"
+                  description: "Total of sale"
+      responses:
+        "200":
+          description: "A sale"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sale:
+                    items:
+                      $ref: "#/components/schemas/Sale"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+      security:
+        - bearerAuth: []
+  /sales/:
+    get:
+      tags:
+        - "Sale"
+      summary: "Get sales"
+      description: ""
+      responses:
+        "200":
+          description: "The sales"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sales:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Sale"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+      security:
+        - bearerAuth: []
+# Product route 
+  /product:
+    post:
+      tags:
+        - "Product"
+      summary: "Create product"
+      requestBody:
+        required: true
+        description: ""
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: "string"
+                  description: "Name of product"
+                value:
+                  type: "number"
+                  format: "float"
+                  description: "value of products"                
+              required:
+                - name
+                - value
+      responses:
+        "201":
+          description: "A product object"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product:
+                    items:
+                      $ref: "#/components/schemas/Product"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+      security:
+        - bearerAuth: []
+  /product/{product_id}:
+    get:
+      tags:
+        - "Product"
+      summary: "Get a specific product"
+      description: ""
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: The ID of the product to return
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        "200":
+          description: "A product"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product:
+                    items:
+                      $ref: "#/components/schemas/Product"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+      security:
+        - bearerAuth: []
+    put:
+      tags:
+        - "Product"
+      summary: "Modify a specific product"
+      description: ""
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          description: The ID of the product to return
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      requestBody:
+        required: true
+        description: ""
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: "string"
+                  description: "Name of product"
+                value:
+                  type: "number"
+                  format: "float"
+                  description: "value of products"
+      responses:
+        "200":
+          description: "A product"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product:
+                    items:
+                      $ref: "#/components/schemas/Product"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+      security:
+        - bearerAuth: []
+  /products/:
+    get:
+      tags:
+        - "Product"
+      summary: "Get products"
+      description: ""
+      responses:
+        "200":
+          description: "The products"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Product"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+      security:
+        - bearerAuth: []
 components:
   securitySchemes:
     bearerAuth:

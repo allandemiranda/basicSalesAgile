@@ -17,7 +17,7 @@ def create_sale():
     return jsonify(sale=json.loads(str(sale))), 201
 
 
-@app.route("/api/product/<int:sale_id>", methods=['GET', 'PUT'])
+@app.route("/api/sale/<int:sale_id>", methods=['GET', 'PUT'])
 @jwt_required
 def find_sale_by_id(sale_id):
     sale = Sale.query.filter_by(id=sale_id).first()
@@ -30,9 +30,6 @@ def find_sale_by_id(sale_id):
         if request.json['quantity']:
             new_quantity = request.json['quantity']
             sale.quantity = new_quantity
-        if request.json['total']:
-            new_total = request.json['total']
-            sale.total = new_total
         if request.json['total']:
             new_total = request.json['total']
             sale.total = new_total
