@@ -34,7 +34,7 @@ services:
     image: agile/web-react:latest
     container_name: react-agile
     volumes:
-      - ./web:/home/node/app
+      - ./web:/app
       - /app/node_modules
     expose:
       - "3000"
