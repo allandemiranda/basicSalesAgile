@@ -14,7 +14,7 @@ def create_sale():
     sale = Sale(product_id, quantity, total, user_id)
     db.session.add(sale)
     db.session.commit()
-    return jsonify(sale=json.loads(str(sale))), 200
+    return jsonify(sale=json.loads(str(sale))), 201
 
 
 @app.route("/api/product/<int:sale_id>", methods=['GET', 'PUT'])
