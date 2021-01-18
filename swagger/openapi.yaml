@@ -1,5 +1,5 @@
 openapi: "3.0.3"
-info:  
+info:
   version: "0.2.1"
   title: "Front-end Technical Exercise"
   contact:
@@ -7,22 +7,69 @@ info:
 servers:
   - url: https://localhost:5000/api
 tags:
-- name: "user"
-  description: "Users from the system"
-- name: "sale"
-  description: "Sales from the Users"
-- name: "product"
-  description: "Products to sales"
+  - name: "Auth"
+    description: "User authentication"
+  - name: "User"
+    description: "Users from the system"
+  - name: "Sale"
+    description: "Sales from the Users"
+  - name: "Product"
+    description: "Products to sales"  
 paths:
-  /user:
-    post:  
+  /auth/local:
+    post:
       tags:
-        - "user"
-      summary: "Create user"          
-      requestBody: 
-        required: true       
+        - "Auth"
+      summary: "Local login user"
+      description: ""
+      requestBody:
+        required: true
         description: ""
-        content: 
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: "string"
+                  description: "User Name"
+                password:
+                  type: "string"
+                  description: "Password"
+              required:
+                - user_name
+                - password
+      responses:
+        "200":
+          description: "Token and user object"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    items:
+                      $ref: "#/components/schemas/User"
+                  token:
+                    type: string
+        "400":
+          description: "Missing request or parameters"
+        "401":
+          description: "Bad parameters"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+  /user:
+    post:
+      tags:
+        - "User"
+      summary: "Create user"
+      requestBody:
+        required: true
+        description: ""
+        content:
           application/json:
             schema:
               type: object
@@ -43,28 +90,32 @@ paths:
                 - name
                 - phone
                 - user_name
-                - password     
+                - password
       responses:
-        '201':
+        "201":
           description: "A user object."
           content:
             application/json:
               schema:
-                $ref: "##/components/schemas/User"
-        '500':
+                type: object
+                properties:
+                  user:
+                    type: object
+                    items:
+                      $ref: "#/components/schemas/User"
+        "500":
           description: "Server error"
         default:
-          description: "Unexpected error"   
-
-  /user/{user_id}/sales/:
+          description: "Unexpected error"
+  /user/{user_id}:
     get:
       tags:
-        - "user"
-      summary: "Get sales from user" 
+        - "User"
+      summary: "Get a specific user"
       description: ""
       parameters:
-        - name: userId
-          in: path          
+        - name: user_id
+          in: path
           required: true
           description: The ID of the user to return
           schema:
@@ -72,27 +123,108 @@ paths:
             format: int64
             minimum: 1
       responses:
-        '200':
+        "200":
+          description: "A user"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    items:
+                      $ref: "#/components/schemas/User"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+      security:
+        - bearerAuth: []
+  /user/{user_id}/sales/:
+    get:
+      tags:
+        - "User"
+      summary: "Get sales from user"
+      description: ""
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: The ID of the user to return
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        "200":
           description: "A sales arry."
           content:
             application/json:
-              schema:    
+              schema:
                 type: object
                 properties:
                   sales:
                     type: array
                     items:
                       $ref: "#/components/schemas/Sale"
-        '500':
+        "500":
           description: "Server error"
         default:
-          description: "Unexpected error" 
+          description: "Unexpected error"
       security:
-       - bearerAuth: []
-  
+        - bearerAuth: []
+  /topUsers/:
+    get:
+      tags:
+        - "User"
+      summary: "Get a Top 5 users"
+      description: ""
+      responses:
+        "200":
+          description: "Top 5 users"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+      security:
+        - bearerAuth: []
+  /users/:
+    get:
+      tags:
+        - "User"
+      summary: "Get users"
+      description: ""
+      responses:
+        "200":
+          description: "The users"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+        "500":
+          description: "Server error"
+        default:
+          description: "Unexpected error"
+      security:
+        - bearerAuth: []
+
 components:
   securitySchemes:
-    bearerAuth:            
+    bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
@@ -115,9 +247,6 @@ components:
         user_name:
           type: "string"
           description: "Login name"
-        password:
-          type: "string"
-          description: "Password user"
       xml:
         name: "User"
     Sale:
@@ -126,10 +255,8 @@ components:
         id:
           type: "integer"
           format: "int"
-        product_id:
-          type: "integer"
-          format: "int"
-          description: "ID from Product"
+        product:
+          $ref: "#/components/schemas/Product"
         quantity:
           type: "integer"
           format: "int"
@@ -141,18 +268,16 @@ components:
         date:
           type: "string"
           description: "Date bought"
-        user_id:
-          type: "integer"
-          format: "int"
-          description: "ID from User bought"
+        user:
+          $ref: "#/components/schemas/User"
       xml:
-        name: "Sale" 
+        name: "Sale"
     Product:
       type: "object"
       properties:
         id:
           type: "integer"
-          format: "int"        
+          format: "int"
         name:
           type: "string"
           description: "name of product"
@@ -161,4 +286,4 @@ components:
           format: "float"
           description: "Value of product"
       xml:
-        name: "Product" 
+        name: "Product"
