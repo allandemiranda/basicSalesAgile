@@ -1,9 +1,11 @@
 import React, { Fragment, useEffect } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
-import { Drawer, Paper} from '@material-ui/core';
+import { Drawer, Divider, Paper, Typography } from '@material-ui/core';
 import { Hidden } from '@material-ui/core';
+
 import useRouter from 'utils/useRouter';
 import { Navigation } from 'components';
 import navigationConfig from './navigationConfig';
@@ -42,15 +44,28 @@ const NavBar = props => {
 
   const classes = useStyles();
   const router = useRouter();
+  const session = useSelector(state => state.session);
 
   useEffect(() => {
     if (openMobile) {
       onMobileClose && onMobileClose();
     }
-  }, [router.location.pathname, openMobile, onMobileClose]);
+
+
+  }, [router.location.pathname]);
 
   const navbarContent = (
-    <div className={classes.content}>      
+    <div className={classes.content}>
+      <div className={classes.profile}>
+        <Typography
+          className={classes.name}
+          variant="h4"
+        >
+          {session.user.first_name} {session.user.last_name}
+        </Typography>
+        <Typography variant="body2">{session.user.bio}</Typography>
+      </div>
+      <Divider className={classes.divider} />
       <nav className={classes.navigation}>
         {navigationConfig.map(list => (
           <Navigation

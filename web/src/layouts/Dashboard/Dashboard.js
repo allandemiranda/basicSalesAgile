@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { LinearProgress } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { NavBar, TopBar } from './components';
+import { NavBar, TopBar, FooterBar } from './components';
 import axios from 'utils/axios';
 import { useDispatch } from 'react-redux';
 import { logout } from 'actions';
@@ -89,6 +89,7 @@ const Dashboard = props => {
           </Suspense>
         </main>
       </div>
+      <FooterBar/>
     </div>
   );
 };
