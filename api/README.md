@@ -18,4 +18,4 @@ $ python3 run.py runserver
 
 # Test
 
-$ python3 tests.py
+$ python tests.py
