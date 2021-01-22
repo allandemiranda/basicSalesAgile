@@ -15,3 +15,7 @@ $ python3 run.py db migrate
 $ python3 run.py db upgrade
 
 $ python3 run.py runserver
+
+# Test
+
+$ python3 tests.py

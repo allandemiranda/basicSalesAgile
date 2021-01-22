@@ -20,7 +20,7 @@ def create_user():
     except Exception as inst:
         print(inst.args)
         return jsonify({"error": "Cannot process the request because it is malformed or incorrect"}), 400
-    return str(user), 201
+    return jsonify(user=json.loads(str(user))), 201
 
 
 @app.route("/api/user/<int:user_id>", methods=['GET', 'PUT'])
@@ -56,7 +56,7 @@ def find_sales_by_userId(id):
 
 @app.route("/api/topUsers/", methods=['GET'])
 @jwt_required
-def show_all_users():
+def show_top_users():
     join = db.session.query(User, func.sum(Sale.total)).outerjoin(
         Sale, User.id == Sale.user_id).group_by(User).all()
     result = []
@@ -80,7 +80,7 @@ def show_all_users():
 
 @app.route("/api/users/", methods=['GET'])
 @jwt_required
-def show_top_users():
+def show_all_users():
     join = db.session.query(User, func.sum(Sale.total)).outerjoin(
         Sale, User.id == Sale.user_id).group_by(User).order_by(User.id).all()
     result = []
