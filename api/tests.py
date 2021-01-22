@@ -210,16 +210,5 @@ class TestApi(unittest.TestCase):
                 flag = True
         self.assertEqual(True, flag)
 
-    def test_10_sale_by_id(self):
-
-        for x in sales_ids['ids']:
-            respose = self.app.get('/api/sale/' + str(x), headers=header)
-            self.assertEqual(200, respose.status_code)
-            self.assertEqual(sale, json.loads(respose.data))
-            old_response = respose.data
-            respose = self.app.get('/api/sales/', headers=header)
-            self.assertEqual(200, respose.status_code)
-            self.assertIn(json.loads(old_response)['sale'], json.loads(respose.data)['sales'])    
-
 if __name__ == "__main__":
     unittest.main()
